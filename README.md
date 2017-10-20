@@ -11,6 +11,6 @@ Implementation of several ODE solvers in the Euler family.
 ODE systems available:
 1. Simple Harmonic Oscillator: v' = -(k/m)x - bv
 2. Lorentz Equations: 
- - x' = sigma\*(y - x)
- - y' = x\*(rho - z) - y
- - z' = x\*y - beta\*z
+    - x' = sigma\*(y - x)
+    - y' = x\*(rho - z) - y
+    - z' = x\*y - beta\*z
