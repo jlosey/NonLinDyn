@@ -9,7 +9,8 @@ Implementation of several ODE solvers in the Euler family.
 4. 4th Order Runge-Kutta (unfinished)
 
 ODE systems available:
-1. Simple Harmonic Oscillator: v' = -(k/m)x - bv
+1. Simple Harmonic Oscillator
+    - v' = -(k/m)x - bv
 2. Lorentz Equations: 
     - x' = sigma\*(y - x)
     - y' = x\*(rho - z) - y
