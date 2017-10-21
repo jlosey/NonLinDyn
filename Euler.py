@@ -67,12 +67,16 @@ def trapezoid(s,x0,tstep):
     return np.resize(x1,(1,n))
 
 def rk4(s,x0,tstep):
+    n = x0.size
     k1 = s.eval(x0)
-    x1 = xi + tstep*(k1+2*k2+2*k3+k4)/6
-    return x1
+    k2 = s.eval(x0+tstep*k1[0]/2)
+    k3 = s.eval(x0+tstep*k2[0]/2)
+    k4 = s.eval(x0+tstep*k3[0])
+    x1 = x0 + tstep*(k1+2*k2+2*k3+k4)/6
+    return np.resize(x1,(1,n))
 
 x0 =[-1,-2]
-step = 0.01
+step = 0.02
 t = 0
 tlist = [t]
 
@@ -82,35 +86,43 @@ beta = 0
 #initialize
 #sf = sho(k,m,beta,x0)
 #sb = sho(k,m,beta,x0)
-st = sho(k,m,beta,x0)
-l1 = lorentz(10,28,15,[8,4,0])
+#st = sho(k,m,beta,x0)
+#st2 = sho(k,m,beta,x0)
+l1 = lorentz(10,28,6,[8,4,0])
+l2 = lorentz(10,28,6,[8,4,0])
 #step
 #print("Backward: t={0} x={1} v={2} \n".format(t,sb.x1[-1,0],sb.x1[-1,1]))
 #print("Forward: t={0} x={1} v={2} \n".format(t,sf.x1[-1,0],sf.x1[-1,1]))
 #print("Trapezoid: t={0} x={1} v={2} \n".format(t,st.x1[-1,0],st.x1[-1,1]))
-while t < 50:
+while t < 40:
     #xif = forwardEuler(sf,sf.x1[-1],step)
     #xib = backwardEuler(sb,sb.x1[-1],step)
-    xit = trapezoid(st,st.x1[-1],step)
+    #xit = trapezoid(st,st.x1[-1],step)
+    #xirk = rk4(st2,st2.x1[-1],step)
     xil = trapezoid(l1,l1.x1[-1],step)
+    xil2 = rk4(l1,l1.x1[-1],step)
     #sb.add_step(xib)
     #sf.add_step(xif)
-    st.add_step(xit)
+    #st.add_step(xit)
+    #st2.add_step(xirk)
     l1.add_step(xil)
+    l2.add_step(xil2)
     t = t+step
     tlist.append(t)
     #print("Backward: t={0} x={1} v={2} \n".format(t,sb.x1[-1,0],sb.x1[-1,1]))
     #print("Forward: t={0} x={1} v={2} \n".format(t,sf.x1[-1,0],sf.x1[-1,1]))
     #print("Trapezoid: t={0} x={1} v={2} \n".format(t,st.x1[-1,0],st.x1[-1,1]))
-fig1 = plt.figure(1)
+#fig1 = plt.figure(1)
 #plt.plot(sf.x1[:,0],sf.x1[:,1],label="Forward")
 #plt.plot(sb.x1[:,0],sb.x1[:,1],label="Backward")
-plt.plot(st.x1[:,0],st.x1[:,1],label="Trapezoid")
-plt.legend()
-fig1.show()
+#plt.plot(st.x1[:,0],st.x1[:,1],label="Trapezoid")
+#plt.plot(st2.x1[:,0],st2.x1[:,1],label="RK4")
+#plt.legend()
+#fig1.show()
 fig2 = plt.figure(2)
 ax1 = fig2.gca(projection='3d')
-ax1.plot(l1.x1[:,0],l1.x1[:,1],l1.x1[:,2],label="Lorenz")
+ax1.plot(l1.x1[:,0],l1.x1[:,1],l1.x1[:,2],"--",label="Trapezoid")
+ax1.plot(l2.x1[:,0],l2.x1[:,1],l2.x1[:,2],"-",label="RK4")
 ax1.legend()
 fig2.show()
 raw_input()
