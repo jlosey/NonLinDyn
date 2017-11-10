@@ -15,3 +15,5 @@ ODE systems available:
     - x' = sigma\*(y - x)
     - y' = x\*(rho - z) - y
     - z' = x\*y - beta\*z
+### embed.py
+Time series embedding implementation. Works on amplitude.dat file.
